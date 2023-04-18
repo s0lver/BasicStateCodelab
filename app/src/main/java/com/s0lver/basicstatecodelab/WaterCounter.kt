@@ -1,6 +1,7 @@
 package com.s0lver.basicstatecodelab
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -17,20 +18,31 @@ fun WaterCounter(modifier: Modifier = Modifier) {
     Column(modifier = modifier.padding(16.dp)) {
         var count by remember { mutableStateOf(0) }
         if (count > 0) {
+            var showTask by remember { mutableStateOf(true) }
+            if (showTask) {
+                WellnessTaskItem(
+                    taskName = "Have you walked 15 mins today",
+                    onClose = { showTask = false })
+            }
             Text(
                 text = "You've had $count glasses",
                 modifier = modifier.padding(16.dp)
             )
         }
-        Button(
-            onClick = {
-                count++;
-            },
-            enabled = count < 10,
-            modifier = Modifier.padding(top = 8.dp)
-        ) {
-            Text(text = "Add a glass of water")
+
+        Row(Modifier.padding(top = 8.dp)) {
+            Button(
+                onClick = {
+                    count++
+                },
+                enabled = count < 10
+            ) {
+                Text(text = "Add a glass of water")
+            }
+
+            Button(onClick = { count = 0 }, Modifier.padding(start = 8.dp)) {
+                Text(text = "Clear water count")
+            }
         }
     }
-
 }
